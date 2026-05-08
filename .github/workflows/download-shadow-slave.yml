@@ -1,0 +1,32 @@
+name: Download Shadow Slave Chapters
+
+on:
+  schedule:
+    # Runs every day at 2:00 AM UTC - you can adjust this cron schedule
+    - cron: '0 2 * * *'
+  workflow_dispatch:  # Allows manual triggering from the Actions tab
+
+jobs:
+  download-chapters:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Download Shadow Slave chapters 1591–1620
+        run: python download_shadow_slave.py
+
+      - name: Upload chapters as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: shadow-slave-1591-1620
+          path: chapters/
+          retention-days: 30
