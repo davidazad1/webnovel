@@ -30,3 +30,10 @@ jobs:
           name: shadow-slave-1591-1620
           path: chapters/
           retention-days: 30
+      - name: Commit chapters to repo
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add chapters/
+          git commit -m "Add downloaded chapters 1591-1620" || echo "No changes to commit"
+          git push
