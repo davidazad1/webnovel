@@ -6,8 +6,8 @@ import re
 
 BASE_URL = "https://yournovel.org"
 NOVEL_SLUG = "shadow-slave"
-CHAPTER_START = 1591
-CHAPTER_END = 1592
+CHAPTER_START = 1593
+CHAPTER_END = 1593
 OUTPUT_DIR = "chapters"
 
 def get_chapter_urls():
