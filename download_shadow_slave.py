@@ -8,7 +8,7 @@ import glob
 BASE_URL = "https://yournovel.org"
 NOVEL_SLUG = "shadow-slave"
 OUTPUT_DIR = "chapters"
-CHAPTERS_TO_DOWNLOAD = 3  # number of new chapters to get
+CHAPTERS_TO_DOWNLOAD = 10  # number of new chapters to get
 
 def get_last_chapter_number():
     """Find the highest chapter number already saved in the chapters folder."""
