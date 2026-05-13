@@ -1,0 +1,55 @@
+name: Download Release File and Push to Repo
+
+on:
+  workflow_dispatch:
+    inputs:
+      download_url:
+        description: 'URL of the release file to download'
+        required: true
+        type: string
+      target_path:
+        description: 'Path to save file in repository (relative to root)'
+        required: false
+        default: 'downloaded_file'
+        type: string
+      commit_message:
+        description: 'Commit message'
+        required: false
+        default: 'Add downloaded release file from workflow_dispatch'
+        type: string
+      branch:
+        description: 'Branch to commit to'
+        required: false
+        default: 'main'
+        type: string
+
+permissions:
+  contents: write   # needed to push the commit
+
+jobs:
+  download-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # We will let the script handle the branch creation / switching
+          # Just checkout the default branch first
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: pip install requests
+
+      - name: Run download and push script
+        run: |
+          python download_and_push.py \
+            --url "${{ github.event.inputs.download_url }}" \
+            --output "${{ github.event.inputs.target_path }}" \
+            --commit-message "${{ github.event.inputs.commit_message }}" \
+            --branch "${{ github.event.inputs.branch }}"
